@@ -10,6 +10,8 @@ export  class ConsultationOrderPage {
     readonly ChooseReason: Locator;
     readonly ConsultSpecialty: Locator;
     readonly ChooseSpecialty: Locator;
+
+    readonly ClickConsultationName: Locator;
     readonly ConsultantName: Locator;
     readonly ChooseName: Locator;
     readonly SaveConsultationOrder: Locator;
@@ -26,14 +28,24 @@ export  class ConsultationOrderPage {
 constructor(page) {
         this.page = page; 
         //this.IPDPatientbutton = page.locator('#no23084797');
-        this.orderTabButton = page.locator('[class="k-state-default k-item k-link OrdersTab has-menu customNavItem"]');
+        this.orderTabButton = page.locator('#PortalTabStrip > ul > li.k-state-default.k-item.k-link.OrdersTab.has-menu');
         this.ConsultationOrderBtn = page.locator('#PortalTabStrip > ul > li.k-state-default.k-item.k-link.OrdersTab.has-menu > ul > li:nth-child(3)');
-        this.ConsultReasonDDl = page.locator('#ReferralReasonID-DDL > span > span.k-select > span');
-        this.ChooseReason = page.locator('#ReferralReasonID-DDL > span > span.k-select > span:nth(0)');
-        this.ConsultSpecialty = page.locator('#ReferralSpecialtyToID-DDL > span > span.k-select > span');
-        this.ChooseSpecialty = page.locator('#ReferralSpecialtyToID-DDL > span > span.k-input.:nth(90)');
-        this.ConsultantName = page.locator('#ReferralToDRID');
-        this.ChooseName = page.locator('#ReferralToDRID_listbox > li.k-item.ng-scope.k-state-hover:nth(0)');
+        //this.ConsultReasonDDl = page.locator('#ReferralReasonID-DDL > span > span.k-select > span');
+        // this.ConsultReasonDDl = page.frameLocator('#oldPortal').locator('.mydiv #ReferralReasonID-DDL .k-select').click(); // -DDL
+        this.ConsultReasonDDl = page.frameLocator('#oldPortal').locator('#ReferralReasonID-DDL').getByText('select');
+        // this.ConsultReasonDDl = page.locator('#ReferralReasonID-DDL .ng-scope');
+        //this.ChooseReason = page.locator('#ReferralReasonID-DDL > span > span.k-select > span:nth(0)');
+        this.ChooseReason = page.frameLocator('#oldPortal').getByRole('option', { name: 'Wrong Specialty' });
+        this.ConsultSpecialty = page.frameLocator('#oldPortal').locator('#ReferralSpecialtyToID-DDL').getByText('select');
+        this.ChooseSpecialty = page.frameLocator('#oldPortal').getByRole('option', { name: 'Plastic surgery' });
+
+
+        this.ClickConsultationName = page.frameLocator('#oldPortal').getByRole('textbox', { name: 'Doctor name' });
+        //this.ConsultantName = page.frameLocator('#oldPortal').getByPlaceholder
+        this.ConsultantName = page.frameLocator('#oldPortal').getByRole('textbox', { name: 'ReferralToDR' });
+        this.ChooseName = page.frameLocator('#oldPortal').getByRole('option', { name: 'Abbas Khader eltahan' });
+
+
         this.SaveConsultationOrder = page.locator('#saveAdmissionOrder');
         this.EditCosultationOrder = page.locator('#editOrdersId > i');
         this.UrgencyDDL = page.locator('#UrgencyID-DDL > span > span.k-select > span');
@@ -70,9 +82,16 @@ constructor(page) {
         }
 
         // Consultation Name
-        async AAConsultantMame(){
-            await this.ConsultantName.click();
-            await this.ConsultantName.fill('a');
+        async ConsultantMame(){
+            await this.ClickConsultationName.click();
+            await this.ClickConsultationName.fill('a');
+            this.page.setDefaultTimeout(3000);
+            await this.ClickConsultationName.fill('ab');
+            this.page.setDefaultTimeout(5000);
+            await this.ClickConsultationName.fill('abba');
+            //this.page.setDefaultTimeout(1000);
+            debugger
+            // await this.ChooseName.hover();
             await this.ChooseName.click();
         }
 

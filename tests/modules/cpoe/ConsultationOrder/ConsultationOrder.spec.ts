@@ -1,8 +1,8 @@
 import { test, expect, Page, Browser } from '@playwright/test'
 import { ConsultationOrderPage } from './ConsultationOrder.page';
-import capturePatientPage from '@tests/shared/components/capture-patient/capture-patient.page'
+import {capturePatientPage} from '@tests/shared/components/capture-patient/capture-patient.page'
 import { PatientData } from '@tests/shared/test-data/patient-data';
-import { capturePatient } from '../e2e-test/fav-list/test33.spec';
+import { capturePatient } from '@tests/shared/components/capture-patient/capture-patient.spec';
 //import {PatientData} from '@tests/shared/test-data/patient-data';
 
 //let page:Page;
@@ -23,8 +23,16 @@ test('Before Order Entry', async () => {
     //const PatientData = new PatientData();
     await ConsultationOrder.dashboard();
 
-    await expect(page.locator('[class="pr0 bold l-s-1x text-lg ng-binding"]')).toBeVisible()
-    console.log('Consultation Order');
+    //await expect(page.locator('[class="pr0 bold l-s-1x text-lg ng-binding"]')).toBeVisible()
+    //console.log('Consultation Order');
+
+    await ConsultationOrder.AddReason();
+    await ConsultationOrder.AddSpecialty();
+    await ConsultationOrder.ConsultantMame();
+    await ConsultationOrder.SaveButton();
+
+    await expect(page.locator('#toast-container > div > div.ng-binding.toast-title')).toBeVisible()
+    console.log('Saved Successfully!');
 });
 
 
@@ -32,7 +40,7 @@ test('Before Order Entry', async () => {
     const ConsultationOrder = new ConsultationOrderPage(page);    
     await ConsultationOrder.AddReason();
     await ConsultationOrder.AddSpecialty();
-    await ConsultationOrder.AAConsultantMame();
+    await ConsultationOrder.ConsultantMame();
     await ConsultationOrder.SaveButton();
 
     await expect(page.locator('#toast-container > div > div.ng-binding.toast-title')).toBeVisible()

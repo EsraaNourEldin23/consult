@@ -12,6 +12,9 @@ export async function capturePatient(page){
   const capPatient = new capturePatientPage(page)
   await capPatient.navigateToPage(page, `${config.baseUrl}physicianDesktop`);
   await expect(page).toHaveURL(/.*physicianDesktop/);
+  await capPatient.navigateToPage(page, `${config.MedUrl}`);
+ // await capPatient.navigateToPage(page, `${config.medurl}/physicianDesktop`);
+  await capPatient.navigateToPage(page, `${config.baseUrl}physicianDesktop`);
   await capPatient.captureAction(page, patientData.SearchKeyWord);
 }
 
